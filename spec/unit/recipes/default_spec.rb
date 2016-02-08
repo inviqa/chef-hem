@@ -38,6 +38,10 @@ describe 'hem::default' do
   end
 
   shared_examples 'rhel repo' do
+    it 'does not include apt' do
+      expect(chef_run).to_not include_recipe('apt')
+    end
+
     it 'does not set up the hem apt repo' do
       expect(chef_run).to_not add_apt_repository('inviqa-tools')
     end
@@ -78,6 +82,10 @@ describe 'hem::default' do
     end
 
     it_behaves_like 'default behaviour'
+
+    it 'includes apt' do
+      expect(chef_run).to include_recipe('apt')
+    end
 
     it 'does not set up the hem yum repo' do
       expect(chef_run).to_not create_yum_repository('inviqa-tools')
