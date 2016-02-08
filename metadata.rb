@@ -6,6 +6,7 @@ description 'Installs/Configures hem'
 long_description 'Installs/Configures hem'
 version '0.1.0'
 
-depends 'yum'
+depends 'apt'
 depends 'git'
 depends 'vagrant', '~> 0.3.0'
+depends 'yum'

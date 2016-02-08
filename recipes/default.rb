@@ -16,7 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe 'yum'
 include_recipe 'git'
 include_recipe 'vagrant'
 
@@ -27,8 +26,17 @@ yum_repository 'inviqa-tools' do
   gpgcheck true
   gpgkey 'https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools'
   sslverify true
-
   action :create
+  only_if { node['platform_family'] == 'rhel' }
+end
+
+apt_repository 'inviqa-tools' do
+  uri 'https://dx6pc3giz7k1r.cloudfront.net/repos/ubuntu'
+  distribution node['lsb']['codename']
+  components ['main']
+  key 'https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools'
+  action :add
+  only_if { node['platform_family'] == 'debian' }
 end
 
 package 'hem' do

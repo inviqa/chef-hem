@@ -38,11 +38,11 @@ describe 'hem::default' do
   end
 
   shared_examples 'rhel repo' do
-    it 'includes yum' do
-      expect(chef_run).to include_recipe 'yum'
+    it 'does not set up the hem apt repo' do
+      expect(chef_run).to_not add_apt_repository('inviqa-tools')
     end
 
-    it 'sets up the hem repo' do
+    it 'sets up the hem yum repo' do
       expect(chef_run).to create_yum_repository('inviqa-tools').with(
         description: 'Inviqa Tools Repository - EL6 $basearch',
         baseurl: 'https://dx6pc3giz7k1r.cloudfront.net/repos/el6/$basearch',
@@ -70,5 +70,26 @@ describe 'hem::default' do
 
     it_behaves_like 'default behaviour'
     it_behaves_like 'rhel repo'
+  end
+
+  context 'When all attributes are default, on ubuntu 14.04' do
+    cached(:chef_run) do
+      ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '14.04').converge(described_recipe)
+    end
+
+    it_behaves_like 'default behaviour'
+
+    it 'does not set up the hem yum repo' do
+      expect(chef_run).to_not create_yum_repository('inviqa-tools')
+    end
+
+    it 'sets up the hem repo' do
+      expect(chef_run).to add_apt_repository('inviqa-tools').with(
+        uri: 'https://dx6pc3giz7k1r.cloudfront.net/repos/ubuntu',
+        distribution: 'trusty',
+        components: ['main'],
+        key: 'https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools'
+      )
+    end
   end
 end
