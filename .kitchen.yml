@@ -10,5 +10,9 @@ platforms:
 suites:
   - name: default
     run_list: 
-      - "recipe[hem]"
+      - recipe[hem::default]
+    attributes:
+  - name: environment
+    run_list:
+      - recipe[hem::environment]
     attributes:
