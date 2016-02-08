@@ -13,7 +13,7 @@ group :test do
   gem 'chefspec', '~> 4.5.0'
   gem 'fauxhai', '~> 3.1'
   gem 'foodcritic', '~> 4.0'
-  gem 'rubocop', '~> 0.34.2'
+  gem 'rubocop', '~> 0.37.0'
 end
 
 group :deployment do
