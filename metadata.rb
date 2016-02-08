@@ -10,3 +10,10 @@ depends 'apt'
 depends 'git'
 depends 'vagrant', '~> 0.3.0'
 depends 'yum'
+
+supports 'centos', '>= 6.7'
+supports 'redhat', '>= 6.7'
+supports 'ubuntu', '>= 14.04'
+
+recipe 'hem::default', 'Install hem'
+recipe 'hem::environment', 'Set up the environment variables required for using hem\'s built in ruby'
