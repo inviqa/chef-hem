@@ -7,20 +7,18 @@ end
 Given(/^I have set up hem to run in local mode$/) do
 end
 
-When(/^I execute "([^"]*)" as the "([^"]*)" user I will see "([^"]*)"$/) do |arg1, arg2, arg3|
+When(/^I execute "([^"]*)" as the "([^"]*)" user I will see "([^"]*)"$/) do |command, user, expected|
   require 'shellwords'
-  command = Shellwords.escape(arg1)
-  user = Shellwords.escape(arg2)
+  command = Shellwords.escape(command)
+  user = Shellwords.escape(user)
   full_command = "sudo su - #{user} -c #{command}"
-  @output = `#{full_command}`
-  expect(@output).to match(arg3)
+  expect(`#{full_command}`).to match(expected)
 end
 
-When(/^I execute "([^"]*)" as the "([^"]*)" user I should see "([^"]*)" being "([^"]*)"$/) do |arg1, arg2, arg3, arg4|
+When(/^I execute "([^"]*)" as the "([^"]*)" user I should see "([^"]*)" being "([^"]*)"$/) do |command, user, variable, value|
   require 'shellwords'
-  command = Shellwords.escape(arg1)
-  user = Shellwords.escape(arg2)
+  command = Shellwords.escape(command)
+  user = Shellwords.escape(user)
   full_command = "sudo su - #{user} -c #{command}"
-  @output = `#{full_command}`
-  expect(@output).to match("#{arg3}=#{arg4}")
+  expect(`#{full_command}`).to match("#{variable}=#{value}")
 end

@@ -40,5 +40,10 @@ describe 'hem::environment' do
       expect(chef_run).to render_file('/etc/profile.d/zzz_hem.sh')
         .with_content('export HEM_RUN_ENV="local"')
     end
+
+    it 'sets up hem to be at the end of the path' do
+      expect(chef_run).to render_file('/etc/profile.d/zzz_hem.sh')
+        .with_content('export PATH="$PATH:/opt/hem/bin:/opt/hem/embedded/bin"')
+    end
   end
 end

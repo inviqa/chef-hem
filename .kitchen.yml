@@ -14,5 +14,6 @@ suites:
     attributes:
   - name: environment
     run_list:
+      - recipe[hem::default]
       - recipe[hem::environment]
     attributes:
