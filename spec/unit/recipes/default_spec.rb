@@ -19,15 +19,25 @@
 require 'spec_helper'
 
 describe 'hem::default' do
-  context 'When all attributes are default, on centos 6.7' do
-    cached(:chef_run) do
-      ChefSpec::SoloRunner.new(platform: 'centos', version: '6.7').converge(described_recipe)
-    end
-
+  shared_examples 'default behaviour' do
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
     end
 
+    it 'includes git' do
+      expect(chef_run).to include_recipe('git')
+    end
+
+    it 'includes vagrant' do
+      expect(chef_run).to include_recipe('vagrant')
+    end
+
+    it 'installs the hem package' do
+      expect(chef_run).to install_package('hem')
+    end
+  end
+
+  shared_examples 'rhel repo' do
     it 'includes yum' do
       expect(chef_run).to include_recipe 'yum'
     end
@@ -42,17 +52,23 @@ describe 'hem::default' do
         sslverify: true
       )
     end
+  end
 
-    it 'includes git' do
-      expect(chef_run).to include_recipe('git')
+  context 'When all attributes are default, on centos 6.7' do
+    cached(:chef_run) do
+      ChefSpec::SoloRunner.new(platform: 'centos', version: '6.7').converge(described_recipe)
     end
 
-    it 'includes vagrant' do
-      expect(chef_run).to include_recipe('vagrant')
+    it_behaves_like 'default behaviour'
+    it_behaves_like 'rhel repo'
+  end
+
+  context 'When all attributes are default, on centos 7.2' do
+    cached(:chef_run) do
+      ChefSpec::SoloRunner.new(platform: 'centos', version: '7.2.1511').converge(described_recipe)
     end
 
-    it 'installs the hem package' do
-      expect(chef_run).to install_package('hem')
-    end
+    it_behaves_like 'default behaviour'
+    it_behaves_like 'rhel repo'
   end
 end
