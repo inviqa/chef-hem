@@ -1,0 +1,11 @@
+name 'hem'
+maintainer 'Inviqa UK Ltd'
+maintainer_email 'kevans@inviqa.com'
+license 'apache2'
+description 'Installs/Configures hem'
+long_description 'Installs/Configures hem'
+version '0.1.0'
+
+depends 'yum'
+depends 'git'
+depends 'vagrant', '~> 0.3.0'
