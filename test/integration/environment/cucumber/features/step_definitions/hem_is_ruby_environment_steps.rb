@@ -17,5 +17,10 @@ When(/^I execute "([^"]*)" as the "([^"]*)" user I will see "([^"]*)"$/) do |arg
 end
 
 When(/^I execute "([^"]*)" as the "([^"]*)" user I should see "([^"]*)" being "([^"]*)"$/) do |arg1, arg2, arg3, arg4|
-  pending
+  require 'shellwords'
+  command = Shellwords.escape(arg1)
+  user = Shellwords.escape(arg2)
+  full_command = "sudo su - #{user} -c #{command}"
+  @output = `#{full_command}`
+  expect(@output).to match("#{arg3}=#{arg4}")
 end

@@ -15,3 +15,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+template '/etc/profile.d/zzz_hem.sh' do
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create
+end

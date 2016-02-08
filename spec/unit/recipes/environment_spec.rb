@@ -27,5 +27,18 @@ describe 'hem::environment' do
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
     end
+
+    it 'creates a profile script' do
+      expect(chef_run).to create_template('/etc/profile.d/zzz_hem.sh').with(
+        owner: 'root',
+        group: 'root',
+        mode: '0755'
+      )
+    end
+
+    it 'sets up hem to run in local mode' do
+      expect(chef_run).to render_file('/etc/profile.d/zzz_hem.sh')
+        .with_content('export HEM_RUN_ENV="local"')
+    end
   end
 end
