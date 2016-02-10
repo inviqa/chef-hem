@@ -19,6 +19,10 @@
 require 'spec_helper'
 
 describe 'hem::default' do
+  before do
+    allow_any_instance_of(Chef::Recipe).to receive(:vagrant_sha256sum).and_return('test')
+  end
+
   shared_examples 'default behaviour' do
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
