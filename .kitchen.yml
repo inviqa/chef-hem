@@ -3,9 +3,10 @@ driver:
   name: vagrant
 
 platforms:
-  - name: ubuntu-14.04
-  - name: centos-6.7
-  - name: centos-7.2
+  - name: bento/debian-8.4
+  - name: bento/ubuntu-14.04
+  - name: bento/centos-6.7
+  - name: bento/centos-7.2
 
 suites:
   - name: default
