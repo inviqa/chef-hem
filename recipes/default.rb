@@ -32,7 +32,7 @@ yum_repository 'inviqa-tools' do
 end
 
 apt_repository 'inviqa-tools' do
-  uri 'https://dx6pc3giz7k1r.cloudfront.net/repos/ubuntu'
+  uri 'https://dx6pc3giz7k1r.cloudfront.net/repos/' + node['platform']
   distribution node['lsb']['codename']
   components ['main']
   key 'https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools'
