@@ -4,7 +4,7 @@ maintainer_email 'kevans@inviqa.com'
 license 'apache2'
 description 'Installs/Configures hem'
 long_description 'Installs/Configures hem'
-version '0.1.0'
+version '0.1.1'
 
 depends 'apt'
 depends 'git'
