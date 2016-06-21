@@ -104,4 +104,29 @@ describe 'hem::default' do
       )
     end
   end
+
+  context 'When all attributes are default, on debian 8.4' do
+    cached(:chef_run) do
+      ChefSpec::SoloRunner.new(platform: 'debian', version: '8.4').converge(described_recipe)
+    end
+
+    it_behaves_like 'default behaviour'
+
+    it 'includes apt' do
+      expect(chef_run).to include_recipe('apt')
+    end
+
+    it 'does not set up the hem yum repo' do
+      expect(chef_run).to_not create_yum_repository('inviqa-tools')
+    end
+
+    it 'sets up the hem repo' do
+      expect(chef_run).to add_apt_repository('inviqa-tools').with(
+        uri: 'https://dx6pc3giz7k1r.cloudfront.net/repos/debian',
+        distribution: 'jessie',
+        components: ['main'],
+        key: 'https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools'
+      )
+    end
+  end
 end

@@ -33,16 +33,18 @@ platforms:
         main:
           keepcache: true
 <% end %>
-  - name: ubuntu-14.04
+<% %w(ubuntu-14.04 debian-8.4).each do |apt_os| %>
+  - name: <%= apt_os %>
     driver_config:
       volume:
-      <% if File.exist?("#{ENV['HOME']}/.vagrant.d/cache/bento/ubuntu-14.04") %>
-        - <%= ENV['HOME'] %>/.vagrant.d/cache/bento/ubuntu-14.04/apt:/var/cache/apt/archives
-        - <%= ENV['HOME'] %>/.vagrant.d/cache/bento/ubuntu-14.04/chef:/var/chef/cache
-        - <%= ENV['HOME'] %>/.vagrant.d/cache/bento/ubuntu-14.04/vagrant_omnibus:/tmp/vagrant-cache/vagrant_omnibus/
+      <% if File.exist?("#{ENV['HOME']}/.vagrant.d/cache/bento/" + apt_os) %>
+        - <%= ENV['HOME'] %>/.vagrant.d/cache/bento/<%= apt_os %>/apt:/var/cache/apt/archives
+        - <%= ENV['HOME'] %>/.vagrant.d/cache/bento/<%= apt_os %>/chef:/var/chef/cache
+        - <%= ENV['HOME'] %>/.vagrant.d/cache/bento/<%= apt_os %>/vagrant_omnibus:/tmp/vagrant-cache/vagrant_omnibus/
       <% end %>
       provision_command:
         - curl -L https://www.opscode.com/chef/install.sh | bash -s -- -v 11.18.12 -d /tmp/vagrant-cache/vagrant_omnibus/
         - env GEM_HOME=/tmp/verifier/gems GEM_PATH=/tmp/verifier/gems GEM_CACHE=/tmp/verifier/gems/cache /opt/chef/embedded/bin/gem install --no-ri --no-rdoc net-ssh -v '2.9.2'
         - env GEM_HOME=/tmp/verifier/gems GEM_PATH=/tmp/verifier/gems GEM_CACHE=/tmp/verifier/gems/cache /opt/chef/embedded/bin/gem install --no-ri --no-rdoc thor busser busser-serverspec serverspec bundler cucumber rspec-expectations
         - chown -R kitchen:kitchen /tmp/verifier
+<% end %>
